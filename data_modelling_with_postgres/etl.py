@@ -6,6 +6,13 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """ Process JSON File for songs and artists table 
+    
+    Arguments:
+        cur {psycopg2 cursor} -- Cursor to execute querys vs database
+        filepath {json file} -- JSON File 2 read and treat
+    """
+
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -19,6 +26,13 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """ Process JSON File for dimensions and fact table less songs and artists
+    
+    Arguments:
+        cur {psycopg2 cursor} -- Cursor to execute querys vs database
+        filepath {json file} -- JSON File 2 read and treat
+    """
+
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -55,13 +69,20 @@ def process_log_file(cur, filepath):
         else:
             songid, artistid = None, None
 
-        if results: print("results: ", results)
-
         # insert songplay record
         songplay_data = [row.registration, row.ts, row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent]
         cur.execute(songplay_table_insert, songplay_data)
 
 def process_data(cur, conn, filepath, func):
+    """ Main function for JSON Directory Treatment
+    
+    Arguments:
+        cur {psycopg2 cursor} -- Cursor to execute querys vs database
+        conn {psycopg2 connection} -- Connection to sparkify database
+        filepath {json file path} -- Directory with JSON Files to work with
+        func {processing function} -- Description 2 execute depending on JSON File
+    """
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
