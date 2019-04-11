@@ -26,3 +26,14 @@ docker-compose up -d
 python create_tables.py
 python etl.py
 ```
+
+### DOCUMENT PROCESS ...
+
+__Discuss the purpose of this database in the context of the startup, Sparkify, and their analytical goals.__
+
+The main point is the creation of a robust data modelling, star model, to query in order to obtain information about songs, artist and users during a time dimension. In the future, data scientists based on information loaded in our database, could recommend different options to our users thanks our historic information loaded.
+
+__State and justify your database schema design and ETL pipeline.__
+
+The model used is star model. There is not necessary to implement a snow flake model due to we dont have too much information to implement more dimensions.
+
